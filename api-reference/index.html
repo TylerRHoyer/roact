@@ -511,6 +511,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#roactchange" title="Roact.Change" class="md-nav__link">
+    Roact.Change
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -747,6 +754,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#roactchange" title="Roact.Change" class="md-nav__link">
+    Roact.Change
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -965,7 +979,25 @@
 <p class="admonition-title">Info</p>
 <p>Event callbacks receive the Roblox Instance as the first parameter, followed by any parameters yielded by the event.</p>
 </div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When connecting to the <code>Changed</code> event, be careful not to call <code>setState</code> or other functions that will trigger renders. This will cause Roact to re-render during a render, and errors will be thrown!</p>
+</div>
 <p>See <a href="../guide/events/">the events guide</a> for more details.</p>
+<h3 id="roactchange">Roact.Change<a class="headerlink" href="#roactchange" title="Permanent link">&para;</a></h3>
+<p>Index into <code>Roact.Change</code> to receive a key that can be used to connect to <a href="http://wiki.roblox.com/index.php?title=API:Class/Instance/GetPropertyChangedSignal"><code>GetPropertyChangedSignal</code></a> events.</p>
+<p>It's similar to <code>Roact.Event</code>:</p>
+<div class="codehilite"><pre><span></span><span class="n">Roact</span><span class="p">.</span><span class="n">createElement</span><span class="p">(</span><span class="s2">&quot;ScrollingFrame&quot;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">Roact</span><span class="p">.</span><span class="n">Change</span><span class="p">.</span><span class="n">CanvasPosition</span><span class="p">]</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">rbx</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ScrollingFrame scrolled to&quot;</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+    <span class="kr">end</span><span class="p">,</span>
+<span class="p">})</span>
+</pre></div>
+
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Property changed events are fired by Roact during the reconciliation phase. Be careful not to accidentally trigger a re-render in the middle of a re-render, or an error will be thrown!</p>
+</div>
 <h2 id="component-types">Component Types<a class="headerlink" href="#component-types" title="Permanent link">&para;</a></h2>
 <h3 id="roactcomponent">Roact.Component<a class="headerlink" href="#roactcomponent" title="Permanent link">&para;</a></h3>
 <p>The base component instance that can be extended to make stateful components.</p>
