@@ -34,7 +34,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-0.17.3, mkdocs-material-2.7.1">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.6.6">
     
     
       
@@ -93,8 +93,8 @@
         
       </defs>
     </svg>
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
       <a href="#roact-api-reference" tabindex="1" class="md-skip">
@@ -627,6 +627,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#getderivedstatefromprops" title="getDerivedStateFromProps" class="md-nav__link">
+    getDerivedStateFromProps
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -856,6 +863,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#getderivedstatefromprops" title="getDerivedStateFromProps" class="md-nav__link">
+    getDerivedStateFromProps
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -886,7 +900,6 @@
 <div class="codehilite"><pre><span></span>Roact.createElement(component, [props, [children]]) -&gt; RoactElement
 </pre></div>
 
-
 <p>Creates a new Roact element representing the given <code>component</code>.</p>
 <p>The <code>children</code> argument is shorthand for adding a <code>Roact.Children</code> key to <code>props</code>. It should be specified as a dictionary of names to elements.</p>
 <p><code>component</code> can be a string, a function, or a table created by <code>Component:extend</code>.</p>
@@ -898,13 +911,11 @@
 <div class="codehilite"><pre><span></span>Roact.reify(element, [parent, [key]]) -&gt; ComponentInstanceHandle
 </pre></div>
 
-
 <p>Creates a Roblox Instance given a Roact element, and optionally a <code>parent</code> to put it in, and a <code>key</code> to use as the instance's <code>Name</code>.</p>
 <p>The result is a <code>ComponentInstanceHandle</code>, which is an opaque handle that represents this specific instance of the root component. You can pass this to APIs like <code>Roact.teardown</code> and the future debug API.</p>
 <h3 id="roactreconcile">Roact.reconcile<a class="headerlink" href="#roactreconcile" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span>Roact.reconcile(instanceHandle, element) -&gt; ComponentInstanceHandle
 </pre></div>
-
 
 <p>Updates an existing instance handle with a new element, returning a new handle.</p>
 <p><code>reconcile</code> can be used to change the props of a component instance created with <code>reify</code> and is useful for putting Roact content into non-Roact applications.</p>
@@ -916,7 +927,6 @@
 <h3 id="roactteardown">Roact.teardown<a class="headerlink" href="#roactteardown" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span>Roact.teardown(instance) -&gt; void
 </pre></div>
-
 
 <p>Destroys the given <code>ComponentInstanceHandle</code> and all of its descendents. Does not operate on a Roblox Instance -- this must be given a handle that was returned by <code>Roact.reify</code>.</p>
 <h3 id="roactonechild">Roact.oneChild<a class="headerlink" href="#roactonechild" title="Permanent link">&para;</a></h3>
@@ -937,7 +947,6 @@
 <span class="p">})</span>
 </pre></div>
 
-
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p><code>Roact.Ref</code> will be called with <code>nil</code> when the component instance is destroyed!</p>
@@ -951,7 +960,6 @@
     <span class="kr">end</span><span class="p">,</span>
 <span class="p">})</span>
 </pre></div>
-
 
 <div class="admonition info">
 <p class="admonition-title">Info</p>
@@ -976,7 +984,6 @@
 <div class="codehilite"><pre><span></span>init(initialProps) -&gt; void
 </pre></div>
 
-
 <p><code>init</code> is called exactly once when a new instance of a component is created. It can be used to set up the initial <code>state</code>, as well as any non-<code>render</code> related values directly on the component.</p>
 <p><code>init</code> is the only place where you can assign to <code>state</code> directly, as opposed to using <code>setState</code>:</p>
 <div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">MyComponent</span><span class="p">:</span><span class="nf">init</span><span class="p">()</span>
@@ -987,11 +994,9 @@
 <span class="kr">end</span>
 </pre></div>
 
-
 <h3 id="render">render<a class="headerlink" href="#render" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span>render() -&gt; Element | nil
 </pre></div>
-
 
 <p><code>render</code> describes what a component should display at the current instant in time.</p>
 <div class="admonition info">
@@ -1013,18 +1018,15 @@
 <span class="kr">end</span>
 </pre></div>
 
-
 <p><code>render</code> must be defined for all components. The default implementation of <code>render</code> throws an error; if your component does not render anything, define a render function that returns <code>nil</code> explicitly.</p>
 <div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">MyComponent</span><span class="p">:</span><span class="nf">render</span><span class="p">()</span>
     <span class="kr">return</span> <span class="kc">nil</span>
 <span class="kr">end</span>
 </pre></div>
 
-
 <h3 id="setstate">setState<a class="headerlink" href="#setstate" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span>setState(newState) -&gt; void
 </pre></div>
-
 
 <p><code>setState</code> merges a table of new state values (<code>newState</code>) onto the existing <code>state</code> and re-renders the component if necessary. Existing values are not affected.</p>
 <div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">MyComponent</span><span class="p">:</span><span class="nf">didMount</span><span class="p">()</span>
@@ -1033,7 +1035,6 @@
     <span class="p">})</span>
 <span class="kr">end</span>
 </pre></div>
-
 
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -1052,7 +1053,6 @@
 <h3 id="shouldupdate">shouldUpdate<a class="headerlink" href="#shouldupdate" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span>shouldUpdate(nextProps, nextState) -&gt; bool
 </pre></div>
-
 
 <p><code>shouldUpdate</code> provides a way to override Roact's rerendering heuristics.</p>
 <p>Right now, components are re-rendered any time a parent component updates, or when state is updated via <code>setState</code>.</p>
@@ -1088,13 +1088,11 @@
 <div class="codehilite"><pre><span></span>didMount() -&gt; void
 </pre></div>
 
-
 <p><code>didMount</code> is fired after the component finishes its initial render. At this point, all associated Roblox Instances have been created, and all components have finished mounting.</p>
 <p><code>didMount</code> is a good place to start initial network communications, attach events to services, or modify the Roblox Instance hierarchy.</p>
 <h3 id="willunmount">willUnmount<a class="headerlink" href="#willunmount" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span>willUnmount() -&gt; void
 </pre></div>
-
 
 <p><code>willUnmount</code> is fired right before Roact begins tearing down a component instance's children.</p>
 <p><code>willUnmount</code> acts like a component's destructor, and is a good place to disconnect any manually-connected events.</p>
@@ -1102,23 +1100,37 @@
 <div class="codehilite"><pre><span></span>willUpdate(nextProps, nextState) -&gt; void
 </pre></div>
 
-
 <p><code>willUpdate</code> is fired after an update is started but before a component's state and props are updated.</p>
 <h3 id="didupdate">didUpdate<a class="headerlink" href="#didupdate" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span>didUpdate(previousProps, previousState) -&gt; void
 </pre></div>
 
-
 <p><code>didUpdate</code> is fired after at the end of an update. At this point, the reconciler has updated the properties of any Roblox Instances and the component instance's props and state are up to date.</p>
 <p><code>didUpdate</code> is a good place to send network requests or dispatch Rodux actions, but make sure to compare <code>self.props</code> and <code>self.state</code> with <code>previousProps</code> and <code>previousState</code> to avoid triggering too many updates.</p>
+<h3 id="getderivedstatefromprops">getDerivedStateFromProps<a class="headerlink" href="#getderivedstatefromprops" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span>static getDerivedStateFromProps(nextProps, lastState) -&gt; nextStateSlice
+</pre></div>
+
+<p>Used to recalculate any state that depends on being synchronized with <code>props</code>.</p>
+<p>Generally, you should use <code>didUpdate</code> to respond to props changing. If you find yourself copying props values to state as-is, consider using props or memoization instead.</p>
+<p><code>getDerivedStateFromProps</code> should return a table that contains the part of the state that should be updated.</p>
+<div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">MyComponent</span><span class="p">.</span><span class="nf">getDerivedStateFromProps</span><span class="p">(</span><span class="n">nextProps</span><span class="p">,</span> <span class="n">lastState</span><span class="p">)</span>
+    <span class="kr">return</span> <span class="p">{</span>
+        <span class="n">someValue</span> <span class="o">=</span> <span class="n">nextProps</span><span class="p">.</span><span class="n">someValue</span>
+    <span class="p">}</span>
+<span class="kr">end</span>
+</pre></div>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>getDerivedStateFromProps</code> is a <em>static</em> lifecycle method. It does not have access to <code>self</code>, and must be a pure function.</p>
+</div>
                 
                   
                 
               
               
                 
-
-
               
             </article>
           </div>
@@ -1168,9 +1180,9 @@
       
     </div>
     
-      <script src="../assets/javascripts/application.8eb9be28.js"></script>
+      <script src="../assets/javascripts/application.02434462.js"></script>
       
-      <script>app.initialize({version:"0.17.3",url:{base:".."}})</script>
+      <script>app.initialize({version:"0.17.2",url:{base:".."}})</script>
       
     
     
