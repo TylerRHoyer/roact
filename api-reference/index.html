@@ -406,6 +406,54 @@
       
       
 
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Performance Optimization
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Performance Optimization
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../performance/overview/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../performance/reduce-reconciliation/" title="Reduce Reconcilation" class="md-nav__link">
+      Reduce Reconcilation
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
   
 
 
@@ -599,8 +647,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#lifecycle-events" title="Lifecycle Events" class="md-nav__link">
-    Lifecycle Events
+  <a href="#lifecycle-methods" title="Lifecycle Methods" class="md-nav__link">
+    Lifecycle Methods
   </a>
   
     <nav class="md-nav">
@@ -842,8 +890,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#lifecycle-events" title="Lifecycle Events" class="md-nav__link">
-    Lifecycle Events
+  <a href="#lifecycle-methods" title="Lifecycle Methods" class="md-nav__link">
+    Lifecycle Methods
   </a>
   
     <nav class="md-nav">
@@ -965,7 +1013,7 @@
 <p class="admonition-title">Warning</p>
 <p><code>Roact.Ref</code> will be called with <code>nil</code> when the component instance is destroyed!</p>
 </div>
-<p>See <a href="../advanced/refs.html">the refs guide</a> for more details.</p>
+<p>See <a href="../advanced/refs/">the refs guide</a> for more details.</p>
 <h3 id="roactevent">Roact.Event<a class="headerlink" href="#roactevent" title="Permanent link">&para;</a></h3>
 <p>Index into <code>Roact.Event</code> to receive a key that can be used to connect to events when creating primitive elements:</p>
 <div class="codehilite"><pre><span></span><span class="n">Roact</span><span class="p">.</span><span class="n">createElement</span><span class="p">(</span><span class="s2">&quot;ImageButton&quot;</span><span class="p">,</span> <span class="p">{</span>
@@ -1089,35 +1137,9 @@
 <p><code>shouldUpdate</code> provides a way to override Roact's rerendering heuristics.</p>
 <p>Right now, components are re-rendered any time a parent component updates, or when state is updated via <code>setState</code>.</p>
 <p><code>PureComponent</code> implements <code>shouldUpdate</code> to only trigger a re-render any time the props are different based on shallow equality. In a future Roact update, <em>all</em> components may implement this check by default.</p>
-<h2 id="lifecycle-events">Lifecycle Events<a class="headerlink" href="#lifecycle-events" title="Permanent link">&para;</a></h2>
-<p>Roact exposes a number of events that stateful components can hook into to be notified of various steps in the rendering process.</p>
-<p>Mounting:</p>
-<div class="component-diagram" aria-role="presentation">
-    <span class="component-diagram-box">init</span>
-    <span class="component-diagram-arrow">➝</span>
-    <span class="component-diagram-box">render</span>
-    <span class="component-diagram-arrow">➝</span>
-    <span class="component-diagram-box">didMount</span>
-</div>
-
-<p>Updating:</p>
-<div class="component-diagram" aria-role="presentation">
-    <span class="component-diagram-box">shouldUpdate?</span>
-    <span class="component-diagram-arrow">➝</span>
-    <span class="component-diagram-box">getDerivedStateFromProps</span>
-    <span class="component-diagram-arrow">➝</span>
-    <span class="component-diagram-box">willUpdate</span>
-    <span class="component-diagram-arrow">➝</span>
-    <span class="component-diagram-box">render</span>
-    <span class="component-diagram-arrow">➝</span>
-    <span class="component-diagram-box">didUpdate</span>
-</div>
-
-<p>Unmounting:</p>
-<div class="component-diagram" aria-role="presentation">
-    <span class="component-diagram-box">willUnmount</span>
-</div>
-
+<h2 id="lifecycle-methods">Lifecycle Methods<a class="headerlink" href="#lifecycle-methods" title="Permanent link">&para;</a></h2>
+<p>In addition to the base Component API, Roact exposes additional lifecycle methods that stateful components can hook into to be notified of various steps in the rendering process.</p>
+<p>A <a href="../guide/state-and-lifecycle#lifecycle-methods">diagram of Roact's lifecycle methods</a> can be found in the guide.</p>
 <h3 id="didmount">didMount<a class="headerlink" href="#didmount" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span>didMount() -&gt; void
 </pre></div>
@@ -1177,7 +1199,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../advanced/context/" title="Context" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../performance/reduce-reconciliation/" title="Reduce Reconcilation" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -1186,7 +1208,7 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Context
+                Reduce Reconcilation
               </span>
             </div>
           </a>

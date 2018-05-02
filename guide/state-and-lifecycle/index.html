@@ -461,6 +461,54 @@
       
 
 
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Performance Optimization
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Performance Optimization
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../performance/overview/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../performance/reduce-reconciliation/" title="Reduce Reconcilation" class="md-nav__link">
+      Reduce Reconcilation
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
   <li class="md-nav__item">
     <a href="../../api-reference/" title="API Reference" class="md-nav__link">
       API Reference
@@ -538,8 +586,34 @@
 </div>
 <h2 id="lifecycle-methods">Lifecycle Methods<a class="headerlink" href="#lifecycle-methods" title="Permanent link">&para;</a></h2>
 <p>Stateful components can provide methods to Roact that are called when certain things happen to a component instance.</p>
-<p>Lifecycle methods are a great place to send off network requests, measure UI (<a href="../../advanced/refs">with the help of refs</a>), wrap non-Roact components, and other side-effects.</p>
-<p>A <a href="../../api-reference#lifecycle-events">diagram of Roact's lifecycle methods</a> is available in the API reference.</p>
+<p>Lifecycle methods are a great place to send off network requests, measure UI (<a href="../../advanced/refs">with the help of refs</a>), wrap non-Roact components, and produce other side-effects.</p>
+<p>Mounting:</p>
+<div class="component-diagram" aria-role="presentation">
+    <span class="component-diagram-box">init</span>
+    <span class="component-diagram-arrow">➝</span>
+    <span class="component-diagram-box">render</span>
+    <span class="component-diagram-arrow">➝</span>
+    <span class="component-diagram-box">didMount</span>
+</div>
+
+<p>Updating:</p>
+<div class="component-diagram" aria-role="presentation">
+    <span class="component-diagram-box">shouldUpdate?</span>
+    <span class="component-diagram-arrow">➝</span>
+    <span class="component-diagram-box">getDerivedStateFromProps</span>
+    <span class="component-diagram-arrow">➝</span>
+    <span class="component-diagram-box">willUpdate</span>
+    <span class="component-diagram-arrow">➝</span>
+    <span class="component-diagram-box">render</span>
+    <span class="component-diagram-arrow">➝</span>
+    <span class="component-diagram-box">didUpdate</span>
+</div>
+
+<p>Unmounting:</p>
+<div class="component-diagram" aria-role="presentation">
+    <span class="component-diagram-box">willUnmount</span>
+</div>
+
 <h2 id="incrementing-counter-part-three">Incrementing Counter, Part Three<a class="headerlink" href="#incrementing-counter-part-three" title="Permanent link">&para;</a></h2>
 <p>Building on the previous two examples, we can expand the incrementing counter to move the counter state and loop inside Roact, and use <code>setState</code> to trigger a re-render instead of <code>Roact.reconcile</code>.</p>
 <p>Generally, this ticking clock demonstrates how many stateful components are structured in Roact.</p>

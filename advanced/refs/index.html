@@ -389,9 +389,38 @@
       
     
     
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Refs
+      </label>
+    
     <a href="./" title="Refs" class="md-nav__link md-nav__link--active">
       Refs
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#refs-in-action" title="Refs in Action" class="md-nav__link">
+    Refs in Action
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
     
   </li>
 
@@ -404,6 +433,54 @@
   <li class="md-nav__item">
     <a href="../context/" title="Context" class="md-nav__link">
       Context
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Performance Optimization
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Performance Optimization
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../performance/overview/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../performance/reduce-reconciliation/" title="Reduce Reconcilation" class="md-nav__link">
+      Reduce Reconcilation
     </a>
   </li>
 
@@ -442,6 +519,22 @@
     
   
   
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#refs-in-action" title="Refs in Action" class="md-nav__link">
+    Refs in Action
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -457,7 +550,56 @@
                 
                 <h1 id="refs">Refs<a class="headerlink" href="#refs" title="Permanent link">&para;</a></h1>
 <p><em>Refs</em> grant access to the actual Instance objects that are created by Roact. They're an escape hatch for when something is difficult or impossible to correctly express with the Roact API.</p>
-<p>To create a ref, pass a function prop with the key <code>Roact.Ref</code> when creating a primitive element:</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Refs can only be used with primitive components.</p>
+</div>
+<h2 id="refs-in-action">Refs in Action<a class="headerlink" href="#refs-in-action" title="Permanent link">&para;</a></h2>
+<p>To create a ref, pass a function prop with the key <code>Roact.Ref</code> when creating a primitive element.</p>
+<p>For example, suppose we wanted to create a search bar that captured cursor focus when any part of it was clicked. We might use a component like this:</p>
+<p><div class="codehilite"><pre><span></span><span class="cm">--[[</span>
+<span class="cm">    A search bar with an icon and a text box that captures focus for its TextBox</span>
+<span class="cm">    when its icon is clicked</span>
+<span class="cm"> ]]</span>
+<span class="kd">local</span> <span class="n">SearchBar</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">Component</span><span class="p">:</span><span class="n">extend</span><span class="p">(</span><span class="s2">&quot;SearchBar&quot;</span><span class="p">)</span>
+
+<span class="kr">function</span> <span class="nc">SearchBar</span><span class="p">:</span><span class="nf">render</span><span class="p">()</span>
+    <span class="c1">-- Render our icon and text box side by side in a Frame</span>
+    <span class="kr">return</span> <span class="n">Roact</span><span class="p">.</span><span class="n">createElement</span><span class="p">(</span><span class="s2">&quot;Frame&quot;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="n">Size</span> <span class="o">=</span> <span class="n">UDim2</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+    <span class="p">},</span> <span class="p">{</span>
+        <span class="n">SearchIcon</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">createElement</span><span class="p">(</span><span class="s2">&quot;ImageButton&quot;</span><span class="p">,</span> <span class="p">{</span>
+            <span class="n">Size</span> <span class="o">=</span> <span class="n">UDim2</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+            <span class="c1">-- Handle click events on the icon</span>
+            <span class="p">[</span><span class="n">Roact</span><span class="p">.</span><span class="n">Event</span><span class="p">.</span><span class="n">MouseButton1Click</span><span class="p">]</span> <span class="o">=</span> <span class="kr">function</span><span class="p">()</span>
+
+                <span class="c1">-- If our capture method is defined, trigger it</span>
+                <span class="kr">if</span> <span class="n">self</span><span class="p">.</span><span class="n">captureTextboxFocus</span> <span class="kr">then</span>
+                    <span class="n">self</span><span class="p">.</span><span class="n">captureTextboxFocus</span><span class="p">()</span>
+                <span class="kr">end</span>
+            <span class="kr">end</span>
+        <span class="p">}),</span>
+
+        <span class="n">SearchTextBox</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">createElement</span><span class="p">(</span><span class="s2">&quot;TextBox&quot;</span><span class="p">,</span> <span class="p">{</span>
+            <span class="n">Size</span> <span class="o">=</span> <span class="n">UDim2</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+            <span class="n">Position</span> <span class="o">=</span> <span class="n">UDim2</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="c1">-- We use Roact.Ref to get a reference to the underlying object</span>
+            <span class="p">[</span><span class="n">Roact</span><span class="p">.</span><span class="n">Ref</span><span class="p">]</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">rbx</span><span class="p">)</span>
+
+                <span class="c1">-- Set a callback function to give focus to the TextBox</span>
+                <span class="n">self</span><span class="p">.</span><span class="n">captureTextboxFocus</span> <span class="o">=</span> <span class="kr">function</span><span class="p">()</span>
+                    <span class="n">rbx</span><span class="p">:</span><span class="n">CaptureFocus</span><span class="p">()</span>
+                <span class="kr">end</span>
+            <span class="kr">end</span>
+        <span class="p">}),</span>
+    <span class="p">})</span>
+<span class="kr">end</span>
+</pre></div>
+When a user clicks on the outer <code>ImageButton</code>, the <code>captureTextboxFocus</code> callback will be triggered and the <code>TextBox</code> instance will get focus as if it had been clicked on directly.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When a component instance is destroyed or the ref property changes, <code>nil</code> will be passed to the old ref function!</p>
+</div>
 <div class="codehilite"><pre><span></span><span class="kd">local</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">createElement</span><span class="p">(</span><span class="s2">&quot;Frame&quot;</span><span class="p">,</span> <span class="p">{</span>
     <span class="p">[</span><span class="n">Roact</span><span class="p">.</span><span class="n">Ref</span><span class="p">]</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">rbx</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ref was called with&quot;</span><span class="p">,</span> <span class="n">rbx</span><span class="p">,</span> <span class="s2">&quot;of type&quot;</span><span class="p">,</span> <span class="n">typeof</span><span class="p">(</span><span class="n">rbx</span><span class="p">))</span>
@@ -474,15 +616,6 @@
 <span class="c1">-- In the output:</span>
 <span class="c1">--     Ref was called with nil of type nil</span>
 </pre></div>
-
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>Refs can only be used with primitive components.</p>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>When a component instance is destroyed or the ref property changes, <code>nil</code> will be passed to the old ref function!</p>
-</div>
                 
                   
                 
