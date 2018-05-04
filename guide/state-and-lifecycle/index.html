@@ -587,31 +587,10 @@
 <h2 id="lifecycle-methods">Lifecycle Methods<a class="headerlink" href="#lifecycle-methods" title="Permanent link">&para;</a></h2>
 <p>Stateful components can provide methods to Roact that are called when certain things happen to a component instance.</p>
 <p>Lifecycle methods are a great place to send off network requests, measure UI (<a href="../../advanced/refs">with the help of refs</a>), wrap non-Roact components, and produce other side-effects.</p>
-<p>Mounting:</p>
-<div class="component-diagram" aria-role="presentation">
-    <span class="component-diagram-box">init</span>
-    <span class="component-diagram-arrow">➝</span>
-    <span class="component-diagram-box">render</span>
-    <span class="component-diagram-arrow">➝</span>
-    <span class="component-diagram-box">didMount</span>
-</div>
-
-<p>Updating:</p>
-<div class="component-diagram" aria-role="presentation">
-    <span class="component-diagram-box">shouldUpdate?</span>
-    <span class="component-diagram-arrow">➝</span>
-    <span class="component-diagram-box">getDerivedStateFromProps</span>
-    <span class="component-diagram-arrow">➝</span>
-    <span class="component-diagram-box">willUpdate</span>
-    <span class="component-diagram-arrow">➝</span>
-    <span class="component-diagram-box">render</span>
-    <span class="component-diagram-arrow">➝</span>
-    <span class="component-diagram-box">didUpdate</span>
-</div>
-
-<p>Unmounting:</p>
-<div class="component-diagram" aria-role="presentation">
-    <span class="component-diagram-box">willUnmount</span>
+<div align="center">
+    <a href="/images/lifecycle.svg">
+        <img src="/images/lifecycle.svg" alt="Diagram of Roact Lifecycle" />
+    </a>
 </div>
 
 <h2 id="incrementing-counter-part-three">Incrementing Counter, Part Three<a class="headerlink" href="#incrementing-counter-part-three" title="Permanent link">&para;</a></h2>
