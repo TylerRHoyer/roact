@@ -59,8 +59,6 @@
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
     
-      <link rel="stylesheet" href="../../css/component-diagram.css">
-    
     
   </head>
   
@@ -674,7 +672,7 @@
 <span class="hll"><span class="kd">local</span> <span class="n">clockElement</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">createElement</span><span class="p">(</span><span class="n">Clock</span><span class="p">,</span> <span class="p">{</span>
 </span><span class="hll">    <span class="n">currentTime</span> <span class="o">=</span> <span class="n">currentTime</span>
 </span><span class="hll"><span class="p">})</span>
-</span><span class="hll"><span class="kd">local</span> <span class="n">handle</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">reify</span><span class="p">(</span><span class="n">clockElement</span><span class="p">,</span> <span class="n">PlayerGui</span><span class="p">,</span> <span class="s2">&quot;Clock UI&quot;</span><span class="p">)</span>
+</span><span class="hll"><span class="kd">local</span> <span class="n">handle</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">mount</span><span class="p">(</span><span class="n">clockElement</span><span class="p">,</span> <span class="n">PlayerGui</span><span class="p">,</span> <span class="s2">&quot;Clock UI&quot;</span><span class="p">)</span>
 </span>
 <span class="c1">-- Every second, update the UI to show our new time.</span>
 <span class="kr">while</span> <span class="kc">true</span> <span class="kr">do</span>

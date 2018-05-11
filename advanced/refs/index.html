@@ -59,8 +59,6 @@
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
     
-      <link rel="stylesheet" href="../../css/component-diagram.css">
-    
     
   </head>
   
@@ -606,12 +604,12 @@ When a user clicks on the outer <code>ImageButton</code>, the <code>captureTextb
     <span class="kr">end</span>
 <span class="p">})</span>
 
-<span class="kd">local</span> <span class="n">handle</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">reify</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+<span class="kd">local</span> <span class="n">handle</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">mount</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
 
 <span class="c1">-- Output:</span>
 <span class="c1">--     Ref was called with Frame of type Instance</span>
 
-<span class="n">Roact</span><span class="p">.</span><span class="n">teardown</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="n">Roact</span><span class="p">.</span><span class="n">unmount</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 
 <span class="c1">-- In the output:</span>
 <span class="c1">--     Ref was called with nil of type nil</span>

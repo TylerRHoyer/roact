@@ -59,8 +59,6 @@
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
     
-      <link rel="stylesheet" href="../../css/component-diagram.css">
-    
     
   </head>
   
@@ -331,8 +329,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#destroying-the-tree" title="Destroying the Tree" class="md-nav__link">
-    Destroying the Tree
+  <a href="#unmounting-the-tree" title="Unmounting the Tree" class="md-nav__link">
+    Unmounting the Tree
   </a>
   
 </li>
@@ -544,8 +542,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#destroying-the-tree" title="Destroying the Tree" class="md-nav__link">
-    Destroying the Tree
+  <a href="#unmounting-the-tree" title="Unmounting the Tree" class="md-nav__link">
+    Unmounting the Tree
   </a>
   
 </li>
@@ -595,12 +593,13 @@
 <span class="p">})</span>
 </pre></div>
 
-<p>Creating an element by itself doesn't do anything, however. In order to turn our description of an object into a real Roblox Instance, we can call <code>Roact.reify</code>:</p>
+<p>Creating an element by itself doesn't do anything, however. In order to turn our description of an object into a real Roblox Instance, we can call <code>Roact.mount</code>:</p>
 <div class="codehilite"><pre><span></span><span class="c1">-- Create a new Frame object in &#39;Workspace&#39;</span>
-<span class="kd">local</span> <span class="n">myHandle</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">reify</span><span class="p">(</span><span class="n">myElement</span><span class="p">,</span> <span class="n">game</span><span class="p">.</span><span class="n">Workspace</span><span class="p">)</span>
+<span class="kd">local</span> <span class="n">myHandle</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">mount</span><span class="p">(</span><span class="n">myElement</span><span class="p">,</span> <span class="n">game</span><span class="p">.</span><span class="n">Workspace</span><span class="p">)</span>
 </pre></div>
 
-<p><code>Roact.reify</code> returns a handle that we can later use to update or destroy that object with <code>Roact.reconcile</code> and <code>Roact.teardown</code>.</p>
+<p>Mounting is the process of creating a Roact component instance as well as any associated Roblox Instances.</p>
+<p><code>Roact.mount</code> returns a handle that we can later use to update or destroy that object with <code>Roact.reconcile</code> and <code>Roact.unmount</code>.</p>
 <h2 id="changing-whats-rendered">Changing What's Rendered<a class="headerlink" href="#changing-whats-rendered" title="Permanent link">&para;</a></h2>
 <p>In order to change the UI that we've created, we need to create a new set of elements and <em>reconcile</em> the existing tree to match it.</p>
 <p>Reconciliation is the term that Roact uses to describe the process of updating an existing UI to match what the program wants it to look like at any given time.</p>
@@ -624,15 +623,15 @@
 <p><code>Roact.reconcile</code> is mostly useful to embed Roact components into existing, non-Roact projects, and for introducing Roact!</p>
 </div>
 <p>Unlike many other UI systems, Roact doesn't let you directly set values on UI objects. Instead, describe what your UI should look like in the form of elements and Roact will handle changing the underlying Roblox Instances.</p>
-<h2 id="destroying-the-tree">Destroying the Tree<a class="headerlink" href="#destroying-the-tree" title="Permanent link">&para;</a></h2>
-<p>Roact provides a method called <code>Roact.teardown</code> that we can use when we're finished with our tree.</p>
-<div class="codehilite"><pre><span></span><span class="n">Roact</span><span class="p">.</span><span class="n">teardown</span><span class="p">(</span><span class="n">myHandle</span><span class="p">)</span>
+<h2 id="unmounting-the-tree">Unmounting the Tree<a class="headerlink" href="#unmounting-the-tree" title="Permanent link">&para;</a></h2>
+<p>Roact provides a method called <code>Roact.unmount</code> that we can use when we're finished with our tree.</p>
+<div class="codehilite"><pre><span></span><span class="n">Roact</span><span class="p">.</span><span class="n">unmount</span><span class="p">(</span><span class="n">myHandle</span><span class="p">)</span>
 </pre></div>
 
+<p>Unmounting destructs the given Roact component instance and destroys any associated Roblox Instances with it.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Once <code>teardown</code> is called, all Roblox Instances get destroyed!</p>
-<p>Trying to use a handle after it's been passed to <code>Roact.teardown</code> will result in errors!</p>
+<p>Trying to use a handle after it's been passed to <code>Roact.unmount</code> will result in errors!</p>
 </div>
 <h2 id="incrementing-counter">Incrementing Counter<a class="headerlink" href="#incrementing-counter" title="Permanent link">&para;</a></h2>
 <p>Using what's been covered so far, we can make a simple program that tells you how long it has been running.</p>
@@ -657,7 +656,7 @@
 
 <span class="c1">-- Create our initial UI.</span>
 <span class="kd">local</span> <span class="n">currentTime</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="kd">local</span> <span class="n">handle</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">reify</span><span class="p">(</span><span class="n">clock</span><span class="p">(</span><span class="n">currentTime</span><span class="p">),</span> <span class="n">PlayerGui</span><span class="p">,</span> <span class="s2">&quot;Clock UI&quot;</span><span class="p">)</span>
+<span class="kd">local</span> <span class="n">handle</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">mount</span><span class="p">(</span><span class="n">clock</span><span class="p">(</span><span class="n">currentTime</span><span class="p">),</span> <span class="n">PlayerGui</span><span class="p">,</span> <span class="s2">&quot;Clock UI&quot;</span><span class="p">)</span>
 
 <span class="c1">-- Every second, update the UI to show our new time.</span>
 <span class="kr">while</span> <span class="kc">true</span> <span class="kr">do</span>
