@@ -985,8 +985,8 @@
 <div class="codehilite"><pre><span></span>Roact.mount(element, [parent, [key]]) -&gt; ComponentInstanceHandle
 </pre></div>
 
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p><code>Roact.mount</code> is also available via the deprecated alias <code>Roact.reify</code>. It will be removed in a future release.</p>
 </div>
 <p>Creates a Roblox Instance given a Roact element, and optionally a <code>parent</code> to put it in, and a <code>key</code> to use as the instance's <code>Name</code>.</p>
@@ -1006,8 +1006,8 @@
 <div class="codehilite"><pre><span></span>Roact.unmount(instance) -&gt; void
 </pre></div>
 
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p><code>Roact.unmount</code> is also available via the deprecated alias <code>Roact.teardown</code>. It will be removed in a future release.</p>
 </div>
 <p>Destroys the given <code>ComponentInstanceHandle</code> and all of its descendents. Does not operate on a Roblox Instance -- this must be given a handle that was returned by <code>Roact.mount</code>.</p>
@@ -1130,10 +1130,22 @@
 </pre></div>
 
 <h3 id="setstate">setState<a class="headerlink" href="#setstate" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span>setState(newState) -&gt; void
+<div class="codehilite"><pre><span></span>setState(stateUpdater | stateChange) -&gt; void
 </pre></div>
 
-<p><code>setState</code> merges a table of new state values (<code>newState</code>) onto the existing <code>state</code> and re-renders the component if necessary. Existing values are not affected.</p>
+<p><code>setState</code> <em>requests</em> an update to the component's state. Roact may schedule this update for a later time or resolve it immediately.</p>
+<p>If a function is passed to <code>setState</code>, that function will be called with the current state and props as arguments:</p>
+<div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">MyComponent</span><span class="p">:</span><span class="nf">didMount</span><span class="p">()</span>
+    <span class="n">self</span><span class="p">:</span><span class="n">setState</span><span class="p">(</span><span class="kr">function</span><span class="p">(</span><span class="n">prevState</span><span class="p">,</span> <span class="n">props</span><span class="p">)</span>
+        <span class="kr">return</span> <span class="p">{</span>
+            <span class="n">counter</span> <span class="o">=</span> <span class="n">prevState</span><span class="p">.</span><span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="p">}</span>
+    <span class="kr">end</span><span class="p">)</span>
+<span class="kr">end</span>
+</pre></div>
+
+<p>If this function returns <code>nil</code>, Roact will not schedule a re-render and no state will be updated.</p>
+<p>If a table is passed to <code>setState</code>, the values in that table will be merged onto the existing state:</p>
 <div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">MyComponent</span><span class="p">:</span><span class="nf">didMount</span><span class="p">()</span>
     <span class="n">self</span><span class="p">:</span><span class="n">setState</span><span class="p">({</span>
         <span class="n">foo</span> <span class="o">=</span> <span class="s2">&quot;bar&quot;</span>
@@ -1143,17 +1155,22 @@
 
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Calling <code>setState</code> from any of these places is not allowed and will throw an error:</p>
+<p><strong><code>setState</code> does not always resolve synchronously!</strong> Roact may batch and reschedule state updates in order to reduce the number of total renders.</p>
+<p>When depending on the previous value of state, like when incrementing a counter, use the functional form to guarantee that all state updates occur!</p>
+<p>This behavior will be similar to the future behavior of React 17. See:</p>
+<ul>
+<li><a href="https://github.com/facebook/react/issues/11527#issuecomment-360199710">RFClarification: why is <code>setState</code> asynchronous?</a></li>
+<li><a href="https://stackoverflow.com/a/48610973/802794">Does React keep the order for state updates?</a></li>
+</ul>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Calling <code>setState</code> from any of these places is not allowed at this time and will throw an error:</p>
 <ul>
 <li>Lifecycle hooks: <code>willUpdate</code>, <code>willUnmount</code></li>
 <li>Initialization: <code>init</code></li>
 <li>Pure functions: <code>render</code>, <code>shouldUpdate</code></li>
 </ul>
-</div>
-<div class="admonition info">
-<p class="admonition-title">Future API Changes</p>
-<p>Depending on current <code>state</code> in <code>setState</code> may cause subtle bugs when Roact starts supporting <a href="https://github.com/Roblox/roact/issues/18">asynchronous rendering</a>.</p>
-<p>A new API similar to React <a href="https://github.com/Roblox/roact/issues/33">is being introduced</a> to solve this problem. This documentation will be updated when that API is released.</p>
 </div>
 <h3 id="shouldupdate">shouldUpdate<a class="headerlink" href="#shouldupdate" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span>shouldUpdate(nextProps, nextState) -&gt; bool
