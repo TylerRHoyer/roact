@@ -523,6 +523,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#roactcreateref" title="Roact.createRef" class="md-nav__link">
+    Roact.createRef
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -560,6 +567,13 @@
           <li class="md-nav__item">
   <a href="#roactchange" title="Roact.Change" class="md-nav__link">
     Roact.Change
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roactnone" title="Roact.None" class="md-nav__link">
+    Roact.None
   </a>
   
 </li>
@@ -642,6 +656,13 @@
           <li class="md-nav__item">
   <a href="#shouldupdate" title="shouldUpdate" class="md-nav__link">
     shouldUpdate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getelementtraceback" title="getElementTraceback" class="md-nav__link">
+    getElementTraceback
   </a>
   
 </li>
@@ -773,6 +794,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#roactcreateref" title="Roact.createRef" class="md-nav__link">
+    Roact.createRef
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -810,6 +838,13 @@
           <li class="md-nav__item">
   <a href="#roactchange" title="Roact.Change" class="md-nav__link">
     Roact.Change
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roactnone" title="Roact.None" class="md-nav__link">
+    Roact.None
   </a>
   
 </li>
@@ -892,6 +927,13 @@
           <li class="md-nav__item">
   <a href="#shouldupdate" title="shouldUpdate" class="md-nav__link">
     shouldUpdate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getelementtraceback" title="getElementTraceback" class="md-nav__link">
+    getElementTraceback
   </a>
   
 </li>
@@ -1016,19 +1058,45 @@
 <p>Given a dictionary of children, returns a single child element.</p>
 <p>If <code>children</code> contains more than one child, <code>oneChild</code> function will throw an error. This is intended to denote an error when using the component using <code>oneChild</code>.</p>
 <p>If <code>children</code> is <code>nil</code> or contains no children, <code>oneChild</code> will return <code>nil</code>.</p>
+<h3 id="roactcreateref">Roact.createRef<a class="headerlink" href="#roactcreateref" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span>Roact.createRef() -&gt; Ref
+</pre></div>
+
+<p>Creates a new reference object that can be used with <a href="#roactref">Roact.Ref</a>.</p>
 <h2 id="constants">Constants<a class="headerlink" href="#constants" title="Permanent link">&para;</a></h2>
 <h3 id="roactchildren">Roact.Children<a class="headerlink" href="#roactchildren" title="Permanent link">&para;</a></h3>
 <p>This is the key that Roact uses internally to store the children that are attached to a Roact element.</p>
 <p>If you're writing a new functional or stateful element that needs to be used like a primitive component, you can access <code>Roact.Children</code> in your props table.</p>
 <h3 id="roactref">Roact.Ref<a class="headerlink" href="#roactref" title="Permanent link">&para;</a></h3>
 <p>Use <code>Roact.Ref</code> as a key into the props of a primitive element to receive a handle to the underlying Roblox Instance.</p>
+<p><code>Ref</code> may either be a function:
 <div class="codehilite"><pre><span></span><span class="n">Roact</span><span class="p">.</span><span class="n">createElement</span><span class="p">(</span><span class="s2">&quot;Frame&quot;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="c1">-- The function given will be called whenever the rendered instance changes.</span>
     <span class="p">[</span><span class="n">Roact</span><span class="p">.</span><span class="n">Ref</span><span class="p">]</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">rbx</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Roblox Instance&quot;</span><span class="p">,</span> <span class="n">rbx</span><span class="p">)</span>
     <span class="kr">end</span><span class="p">,</span>
 <span class="p">})</span>
-</pre></div>
+</pre></div></p>
+<p>Or a reference object created with <a href="#roactcreateref">createRef</a>:
+<div class="codehilite"><pre><span></span><span class="kd">local</span> <span class="n">ExampleComponent</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">Component</span><span class="p">:</span><span class="n">extend</span><span class="p">(</span><span class="s2">&quot;ExampleComponent&quot;</span><span class="p">)</span>
 
+<span class="kr">function</span> <span class="nc">ExampleComponent</span><span class="p">:</span><span class="nf">init</span><span class="p">()</span>
+    <span class="c1">-- Create a reference object.</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">ref</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">createRef</span><span class="p">()</span>
+<span class="kr">end</span>
+
+<span class="kr">function</span> <span class="nc">ExampleComponent</span><span class="p">:</span><span class="nf">render</span><span class="p">()</span>
+    <span class="kr">return</span> <span class="n">Roact</span><span class="p">.</span><span class="n">createElement</span><span class="p">(</span><span class="s2">&quot;Frame&quot;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="c1">-- Use the reference object to point to this rendered instance.</span>
+        <span class="p">[</span><span class="n">Roact</span><span class="p">.</span><span class="n">Ref</span><span class="p">]</span> <span class="o">=</span> <span class="n">ref</span><span class="p">,</span>
+    <span class="p">})</span>
+<span class="kr">end</span>
+
+<span class="kr">function</span> <span class="nc">ExampleComponent</span><span class="p">:</span><span class="nf">didMount</span><span class="p">()</span>
+    <span class="c1">-- Access the current value of a reference object using its current property.</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Roblox Instance&quot;</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">ref</span><span class="p">.</span><span class="n">current</span><span class="p">)</span>
+<span class="kr">end</span>
+</pre></div></p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p><code>Roact.Ref</code> will be called with <code>nil</code> when the component instance is destroyed!</p>
@@ -1066,6 +1134,16 @@
 <p class="admonition-title">Warning</p>
 <p>Property changed events are fired by Roact during the reconciliation phase. Be careful not to accidentally trigger a re-render in the middle of a re-render, or an error will be thrown!</p>
 </div>
+<h3 id="roactnone">Roact.None<a class="headerlink" href="#roactnone" title="Permanent link">&para;</a></h3>
+<p><code>Roact.None</code> is a special value that can be used to clear elements from your component state when calling <code>setState</code> or returning from <code>getDerivedStateFromProps</code>.</p>
+<p>In Lua tables, removing a field from state is not possible by setting its value to <code>nil</code> because <code>nil</code> values mean the same thing as no value at all. If a field needs to be removed from state, it can be set to <code>Roact.None</code> when calling <code>setState</code>, which will ensure that the resulting state no longer contains it:</p>
+<div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">MyComponent</span><span class="p">:</span><span class="nf">didMount</span><span class="p">()</span>
+    <span class="n">self</span><span class="p">:</span><span class="n">setState</span><span class="p">({</span>
+        <span class="n">fieldToRemove</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">None</span>
+    <span class="p">})</span>
+<span class="kr">end</span>
+</pre></div>
+
 <h2 id="component-types">Component Types<a class="headerlink" href="#component-types" title="Permanent link">&para;</a></h2>
 <h3 id="roactcomponent">Roact.Component<a class="headerlink" href="#roactcomponent" title="Permanent link">&para;</a></h3>
 <p>The base component instance that can be extended to make stateful components.</p>
@@ -1153,6 +1231,7 @@
 <span class="kr">end</span>
 </pre></div>
 
+<p>Setting a field in the state to <code>Roact.None</code> will clear it from the state. This is the only way to remove a field from a component's state!</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p><strong><code>setState</code> does not always resolve synchronously!</strong> Roact may batch and reschedule state updates in order to reduce the number of total renders.</p>
@@ -1179,6 +1258,11 @@
 <p><code>shouldUpdate</code> provides a way to override Roact's rerendering heuristics.</p>
 <p>Right now, components are re-rendered any time a parent component updates, or when state is updated via <code>setState</code>.</p>
 <p><code>PureComponent</code> implements <code>shouldUpdate</code> to only trigger a re-render any time the props are different based on shallow equality. In a future Roact update, <em>all</em> components may implement this check by default.</p>
+<h3 id="getelementtraceback">getElementTraceback<a class="headerlink" href="#getelementtraceback" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span>getElementTraceback() -&gt; string | nil
+</pre></div>
+
+<p><code>getElementTraceback</code> gets the stack trace that the component was created in. This allows you to report error messages accurately.</p>
 <h2 id="lifecycle-methods">Lifecycle Methods<a class="headerlink" href="#lifecycle-methods" title="Permanent link">&para;</a></h2>
 <p>In addition to the base Component API, Roact exposes additional lifecycle methods that stateful components can hook into to be notified of various steps in the rendering process.</p>
 <div align="center">
@@ -1224,6 +1308,7 @@
 <span class="kr">end</span>
 </pre></div>
 
+<p>As with <code>setState</code>, you can set use the constant <code>Roact.None</code> to remove a field from the state.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code>getDerivedStateFromProps</code> is a <em>static</em> lifecycle method. It does not have access to <code>self</code>, and must be a pure function.</p>
