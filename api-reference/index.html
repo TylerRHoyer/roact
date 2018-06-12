@@ -1069,15 +1069,7 @@
 <p>If you're writing a new functional or stateful element that needs to be used like a primitive component, you can access <code>Roact.Children</code> in your props table.</p>
 <h3 id="roactref">Roact.Ref<a class="headerlink" href="#roactref" title="Permanent link">&para;</a></h3>
 <p>Use <code>Roact.Ref</code> as a key into the props of a primitive element to receive a handle to the underlying Roblox Instance.</p>
-<p><code>Ref</code> may either be a function:
-<div class="codehilite"><pre><span></span><span class="n">Roact</span><span class="p">.</span><span class="n">createElement</span><span class="p">(</span><span class="s2">&quot;Frame&quot;</span><span class="p">,</span> <span class="p">{</span>
-    <span class="c1">-- The function given will be called whenever the rendered instance changes.</span>
-    <span class="p">[</span><span class="n">Roact</span><span class="p">.</span><span class="n">Ref</span><span class="p">]</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">rbx</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Roblox Instance&quot;</span><span class="p">,</span> <span class="n">rbx</span><span class="p">)</span>
-    <span class="kr">end</span><span class="p">,</span>
-<span class="p">})</span>
-</pre></div></p>
-<p>Or a reference object created with <a href="#roactcreateref">createRef</a>:
+<p>Assign this key to a reference object created with <a href="#roactcreateref">createRef</a>:
 <div class="codehilite"><pre><span></span><span class="kd">local</span> <span class="n">ExampleComponent</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">Component</span><span class="p">:</span><span class="n">extend</span><span class="p">(</span><span class="s2">&quot;ExampleComponent&quot;</span><span class="p">)</span>
 
 <span class="kr">function</span> <span class="nc">ExampleComponent</span><span class="p">:</span><span class="nf">init</span><span class="p">()</span>
@@ -1088,7 +1080,7 @@
 <span class="kr">function</span> <span class="nc">ExampleComponent</span><span class="p">:</span><span class="nf">render</span><span class="p">()</span>
     <span class="kr">return</span> <span class="n">Roact</span><span class="p">.</span><span class="n">createElement</span><span class="p">(</span><span class="s2">&quot;Frame&quot;</span><span class="p">,</span> <span class="p">{</span>
         <span class="c1">-- Use the reference object to point to this rendered instance.</span>
-        <span class="p">[</span><span class="n">Roact</span><span class="p">.</span><span class="n">Ref</span><span class="p">]</span> <span class="o">=</span> <span class="n">ref</span><span class="p">,</span>
+        <span class="p">[</span><span class="n">Roact</span><span class="p">.</span><span class="n">Ref</span><span class="p">]</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">ref</span><span class="p">,</span>
     <span class="p">})</span>
 <span class="kr">end</span>
 
@@ -1097,9 +1089,21 @@
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Roblox Instance&quot;</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">ref</span><span class="p">.</span><span class="n">current</span><span class="p">)</span>
 <span class="kr">end</span>
 </pre></div></p>
+<p>Alternatively, you can assign it to a function instead:
+<div class="codehilite"><pre><span></span><span class="n">Roact</span><span class="p">.</span><span class="n">createElement</span><span class="p">(</span><span class="s2">&quot;Frame&quot;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="c1">-- The provided function will be called whenever the rendered instance changes.</span>
+    <span class="p">[</span><span class="n">Roact</span><span class="p">.</span><span class="n">Ref</span><span class="p">]</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">rbx</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Roblox Instance&quot;</span><span class="p">,</span> <span class="n">rbx</span><span class="p">)</span>
+    <span class="kr">end</span><span class="p">,</span>
+<span class="p">})</span>
+</pre></div></p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p><code>Roact.Ref</code> will be called with <code>nil</code> when the component instance is destroyed!</p>
+<p>When <code>Roact.Ref</code> is given a funciton, Roact does not guarantee when this function will be run relative to the reconciliation of other props. If you try to read a Roblox property that's being set via a Roact prop, you won't know if you're reading it before or after Roact reconciles that prop!</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When <code>Roact.Ref</code> is given a funciton, it will be called with <code>nil</code> when the component instance is destroyed!</p>
 </div>
 <p>See <a href="../advanced/refs/">the refs guide</a> for more details.</p>
 <h3 id="roactevent">Roact.Event<a class="headerlink" href="#roactevent" title="Permanent link">&para;</a></h3>
