@@ -95,7 +95,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <a href="#elements" tabindex="1" class="md-skip">
+      <a href="#changing-whats-rendered" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -300,8 +300,6 @@
     
     <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
     
-      
-    
     
       <label class="md-nav__link md-nav__link--active" for="toc">
         Elements
@@ -314,8 +312,6 @@
       
 <nav class="md-nav md-nav--secondary">
   
-  
-    
   
   
     <label class="md-nav__title" for="toc">Table of contents</label>
@@ -528,8 +524,6 @@
 <nav class="md-nav md-nav--secondary">
   
   
-    
-  
   
     <label class="md-nav__title" for="toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
@@ -574,8 +568,9 @@
                   <a href="https://github.com/Roblox/roact/edit/master/docs/guide/elements.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="elements">Elements<a class="headerlink" href="#elements" title="Permanent link">&para;</a></h1>
-<p>Like React, everything in Roact is built out of elements. Elements are the smallest building blocks for creating UI.</p>
+                  <h1>Elements</h1>
+                
+                <p>Like React, everything in Roact is built out of elements. Elements are the smallest building blocks for creating UI.</p>
 <p>Elements describe what you want your UI to look like at a single point in time. They're <a href="https://en.wikipedia.org/wiki/Immutable_object">immutable</a>: you can't change elements once they're created, but you can create new ones. Because creating elements is fast, this is no big deal.</p>
 <p>You can create an element using <code>Roact.createElement</code> -- just pass a Roblox class name as the first argument, and any properties as the second argument!</p>
 <div class="codehilite"><pre><span></span><span class="kd">local</span> <span class="n">myElement</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">createElement</span><span class="p">(</span><span class="s2">&quot;Frame&quot;</span><span class="p">,</span> <span class="p">{</span>
