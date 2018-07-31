@@ -409,8 +409,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#refs-during-unmount" title="Refs During Unmount" class="md-nav__link">
-    Refs During Unmount
+  <a href="#function-refs" title="Function Refs" class="md-nav__link">
+    Function Refs
   </a>
   
 </li>
@@ -529,8 +529,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#refs-during-unmount" title="Refs During Unmount" class="md-nav__link">
-    Refs During Unmount
+  <a href="#function-refs" title="Function Refs" class="md-nav__link">
+    Function Refs
   </a>
   
 </li>
@@ -556,70 +556,66 @@
                 
                   <h1>Refs</h1>
                 
-                <p><em>Refs</em> grant access to the actual Instance objects that are created by Roact. They're an escape hatch for when something is difficult or impossible to correctly express with the Roact API.</p>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>Refs can only be used with primitive components.</p>
-</div>
+                <p><em>Refs</em> grant access to the Roblox Instance objects that are created by Roact. They're an escape hatch for when something is difficult or impossible to correctly express with the Roact API.</p>
+<p>Refs are intended to be used in cases where Roact cannot solve a problem directly, or its solution might not be performant enough, like:</p>
+<ul>
+<li>Resizing a box to fit its contents dynamically</li>
+<li>Gamepad selection</li>
+<li>Animations</li>
+</ul>
+<p>Refs can only be attached to primitive components. This is different than React, where refs can be used to call members of composite components.</p>
 <h2 id="refs-in-action">Refs in Action<a class="headerlink" href="#refs-in-action" title="Permanent link">&para;</a></h2>
-<p>To create a ref, pass a function prop with the key <code>Roact.Ref</code> when creating a primitive element.</p>
-<p>For example, suppose we wanted to create a search bar that captured cursor focus when any part of it was clicked. We might use a component like this:</p>
-<p><div class="codehilite"><pre><span></span><span class="cm">--[[</span>
-<span class="cm">    A search bar with an icon and a text box that captures focus for its TextBox</span>
-<span class="cm">    when its icon is clicked</span>
-<span class="cm"> ]]</span>
-<span class="kd">local</span> <span class="n">SearchBar</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">Component</span><span class="p">:</span><span class="n">extend</span><span class="p">(</span><span class="s2">&quot;SearchBar&quot;</span><span class="p">)</span>
+<p>To use a ref, call <code>Roact.createRef()</code> and put the result somewhere persistent. Generally, that means that refs are only used inside stateful components.</p>
+<div class="codehilite"><pre><span></span><span class="kd">local</span> <span class="n">Foo</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">Component</span><span class="p">:</span><span class="n">extend</span><span class="p">(</span><span class="s2">&quot;Foo&quot;</span><span class="p">)</span>
 
-<span class="kr">function</span> <span class="nc">SearchBar</span><span class="p">:</span><span class="nf">init</span><span class="p">()</span>
+<span class="kr">function</span> <span class="nc">Foo</span><span class="p">:</span><span class="nf">init</span><span class="p">()</span>
     <span class="n">self</span><span class="p">.</span><span class="n">textBoxRef</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">createRef</span><span class="p">()</span>
 <span class="kr">end</span>
+</pre></div>
 
-<span class="kr">function</span> <span class="nc">SearchBar</span><span class="p">:</span><span class="nf">render</span><span class="p">()</span>
-    <span class="c1">-- Render our icon and text box side by side in a Frame</span>
-    <span class="kr">return</span> <span class="n">Roact</span><span class="p">.</span><span class="n">createElement</span><span class="p">(</span><span class="s2">&quot;Frame&quot;</span><span class="p">,</span> <span class="p">{</span>
-        <span class="n">Size</span> <span class="o">=</span> <span class="n">UDim2</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
-    <span class="p">},</span> <span class="p">{</span>
-        <span class="n">SearchIcon</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">createElement</span><span class="p">(</span><span class="s2">&quot;ImageButton&quot;</span><span class="p">,</span> <span class="p">{</span>
-            <span class="n">Size</span> <span class="o">=</span> <span class="n">UDim2</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
-
-            <span class="c1">-- Handle click events on the icon</span>
-            <span class="p">[</span><span class="n">Roact</span><span class="p">.</span><span class="n">Event</span><span class="p">.</span><span class="n">Activated</span><span class="p">]</span> <span class="o">=</span> <span class="kr">function</span><span class="p">()</span>
-                <span class="n">self</span><span class="p">.</span><span class="n">textBoxRef</span><span class="p">.</span><span class="n">current</span><span class="p">:</span><span class="n">CaptureFocus</span><span class="p">()</span>
-            <span class="kr">end</span>
-        <span class="p">}),</span>
-
-        <span class="n">SearchTextBox</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">createElement</span><span class="p">(</span><span class="s2">&quot;TextBox&quot;</span><span class="p">,</span> <span class="p">{</span>
-            <span class="n">Size</span> <span class="o">=</span> <span class="n">UDim2</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
-            <span class="n">Position</span> <span class="o">=</span> <span class="n">UDim2</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-
-            <span class="c1">-- Use Roact.Ref to get a reference to the underlying object</span>
-            <span class="p">[</span><span class="n">Roact</span><span class="p">.</span><span class="n">Ref</span><span class="p">]</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">textBoxRef</span>
-        <span class="p">}),</span>
+<p>Next, use the ref inside of <code>render</code> by creating a primitive component. Refs use the special key <code>Roact.Ref</code>.</p>
+<div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">Foo</span><span class="p">:</span><span class="nf">render</span><span class="p">()</span>
+    <span class="kr">return</span> <span class="n">Roact</span><span class="p">.</span><span class="n">createElement</span><span class="p">(</span><span class="s2">&quot;TextBox&quot;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">Roact</span><span class="p">.</span><span class="n">Ref</span><span class="p">]</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">textBoxRef</span><span class="p">,</span>
     <span class="p">})</span>
 <span class="kr">end</span>
 </pre></div>
-When a user clicks on the outer <code>ImageButton</code>, the <code>captureTextboxFocus</code> callback will be triggered and the <code>TextBox</code> instance will get focus as if it had been clicked on directly.</p>
-<h2 id="refs-during-unmount">Refs During Unmount<a class="headerlink" href="#refs-during-unmount" title="Permanent link">&para;</a></h2>
+
+<p>Finally, we can use the value of the ref at any point after our component is mounted.</p>
+<div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">Foo</span><span class="p">:</span><span class="nf">didMount</span><span class="p">()</span>
+    <span class="c1">-- The actual Instance is stored in the &#39;current&#39; property of a ref object.</span>
+    <span class="kd">local</span> <span class="n">textBox</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">textBoxRef</span><span class="p">.</span><span class="n">current</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TextBox has this text:&quot;</span><span class="p">,</span> <span class="n">textBox</span><span class="p">.</span><span class="n">Text</span><span class="p">)</span>
+<span class="kr">end</span>
+</pre></div>
+
+<h2 id="function-refs">Function Refs<a class="headerlink" href="#function-refs" title="Permanent link">&para;</a></h2>
+<p>The original ref API was based on functions instead of objects. Its use is not recommended for most cases anymore, but it can still be useful in some cases.</p>
+<p>This style of ref involves passing a function as the <code>Roact.Ref</code> prop as opposed to a dedicated ref object:</p>
+<div class="codehilite"><pre><span></span><span class="kd">local</span> <span class="kr">function</span> <span class="nf">Bar</span><span class="p">(</span><span class="n">props</span><span class="p">)</span>
+    <span class="kr">return</span> <span class="n">Roact</span><span class="p">.</span><span class="n">createElement</span><span class="p">(</span><span class="s2">&quot;TextBox&quot;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">Roact</span><span class="p">.</span><span class="n">Ref</span><span class="p">]</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+            <span class="c1">-- Be careful to guard against nil refs; this is a gotcha of</span>
+            <span class="c1">-- function refs.</span>
+            <span class="kr">if</span> <span class="n">instance</span> <span class="o">~=</span> <span class="kc">nil</span> <span class="kr">then</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TextBox has this text:&quot;</span><span class="p">,</span> <span class="n">instance</span><span class="p">.</span><span class="n">Text</span><span class="p">)</span>
+            <span class="kr">else</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TextBox ref removed.&quot;</span><span class="p">)</span>
+            <span class="kr">end</span>
+        <span class="kr">end</span><span class="p">,</span>
+    <span class="p">})</span>
+<span class="kr">end</span>
+</pre></div>
+
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>When using the function version of refs, any time a component instance is destroyed or the ref property changes, <code>nil</code> will be passed to the old ref function!</p>
+<p>When a function ref is called, it's not guaranteed that its sibling or parent components have finished mounting. Causing side effects here can cause difficult-to-trace bugs.</p>
 </div>
-<div class="codehilite"><pre><span></span><span class="kd">local</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">createElement</span><span class="p">(</span><span class="s2">&quot;Frame&quot;</span><span class="p">,</span> <span class="p">{</span>
-    <span class="p">[</span><span class="n">Roact</span><span class="p">.</span><span class="n">Ref</span><span class="p">]</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">rbx</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ref was called with&quot;</span><span class="p">,</span> <span class="n">rbx</span><span class="p">,</span> <span class="s2">&quot;of type&quot;</span><span class="p">,</span> <span class="n">typeof</span><span class="p">(</span><span class="n">rbx</span><span class="p">))</span>
-    <span class="kr">end</span>
-<span class="p">})</span>
-
-<span class="kd">local</span> <span class="n">handle</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">mount</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
-
-<span class="c1">-- Output:</span>
-<span class="c1">--     Ref was called with Frame of type Instance</span>
-
-<span class="n">Roact</span><span class="p">.</span><span class="n">unmount</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-
-<span class="c1">-- In the output:</span>
-<span class="c1">--     Ref was called with nil of type nil</span>
-</pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When a component with a function ref unmounts, or when the ref value changes, the component's ref is passed <code>nil</code>.</p>
+</div>
                 
                   
                 
