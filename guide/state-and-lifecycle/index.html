@@ -573,13 +573,35 @@
                 <p>In the previous section, we talked about using components to create reusable chunks of state, and introduced <em>functional</em> and <em>stateful</em> components.</p>
 <p>Stateful components do everything that functional components do, but have the addition of mutable <em>state</em> and <em>lifecycle methods</em>.</p>
 <h2 id="state">State<a class="headerlink" href="#state" title="Permanent link">&para;</a></h2>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>This section is incomplete!</p>
-</div>
+<p><strong>State</strong> is the term we use to talk about values that are owned by a component itself.</p>
+<p>Unlike <strong>props</strong>, which are passed to a component from above, <strong>state</strong> is created within a component and can only be updated by that component.</p>
+<p>We can set up the initial state of a stateful component inside of a method named <code>init</code>:</p>
+<div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">MyComponent</span><span class="p">:</span><span class="nf">init</span><span class="p">()</span>
+    <span class="n">self</span><span class="p">:</span><span class="n">setState</span><span class="p">({</span>
+        <span class="n">currentTime</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="p">})</span>
+<span class="kr">end</span>
+</pre></div>
+
+<p>To update state, we use a special method named <code>setState</code>. <code>setState</code> will merge any values we give it into our state. It will overwrite any existing values, and leave any values we don't specify alone.</p>
+<p>There's another form of <code>setState</code> we can use. When the new state we want our component to have depends on our current state, like incrementing a value, we use this form:</p>
+<div class="codehilite"><pre><span></span><span class="c1">-- This is another special method, didMount, that we&#39;ll talk about in a moment.</span>
+<span class="kr">function</span> <span class="nc">MyComponent</span><span class="p">:</span><span class="nf">didMount</span><span class="p">()</span>
+    <span class="n">self</span><span class="p">:</span><span class="n">setState</span><span class="p">(</span><span class="kr">function</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="kr">return</span> <span class="p">{</span>
+            <span class="n">currentTime</span> <span class="o">=</span> <span class="n">currentTime</span> <span class="o">+</span> <span class="n">state</span><span class="p">.</span><span class="n">currentTime</span>
+        <span class="p">}</span>
+    <span class="kr">end</span><span class="p">)</span>
+<span class="kr">end</span>
+</pre></div>
+
+<p>In this case, we're passing a <em>function</em> to <code>setState</code>. This function is called and passed the current state, and returns a new state. It can also return <code>nil</code> to abort the state update, which lets Roact make some handy optimizations.</p>
+<p>Right now, this version of <code>setState</code> works exactly the same way as the version that accepts an object. In the future, Roact will support optimizations that make this difference more important, like <a href="https://github.com/Roblox/roact/issues/18">asynchronous rendering</a>.</p>
 <h2 id="lifecycle-methods">Lifecycle Methods<a class="headerlink" href="#lifecycle-methods" title="Permanent link">&para;</a></h2>
 <p>Stateful components can provide methods to Roact that are called when certain things happen to a component instance.</p>
 <p>Lifecycle methods are a great place to send off network requests, measure UI (<a href="../../advanced/refs">with the help of refs</a>), wrap non-Roact components, and produce other side-effects.</p>
+<p>The most useful lifecycle methods are generally <code>didMount</code> and <code>didUpdate</code>. Most components that do things that are difficult to express in Roact itself will use these lifecycle methods.</p>
+<p>Here's a chart of all of the methods available. You can also check out the <a href="../../api-reference/#lifecycle-methods">Lifecycle Methods</a> section of the API reference for more details.</p>
 <div align="center">
     <a href="../../images/lifecycle.svg">
         <img src="../../images/lifecycle.svg" alt="Diagram of Roact Lifecycle" />
@@ -597,11 +619,10 @@
 <span class="kd">local</span> <span class="n">Clock</span> <span class="o">=</span> <span class="n">Roact</span><span class="p">.</span><span class="n">Component</span><span class="p">:</span><span class="n">extend</span><span class="p">(</span><span class="s2">&quot;Clock&quot;</span><span class="p">)</span>
 
 <span class="kr">function</span> <span class="nc">Clock</span><span class="p">:</span><span class="nf">init</span><span class="p">()</span>
-    <span class="c1">-- In init, you should assign to &#39;state&#39; directly.</span>
-    <span class="c1">-- Use this opportunity to set any initial values.</span>
-    <span class="n">self</span><span class="p">.</span><span class="n">state</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1">-- In init, we can use setState to set up our initial component state.</span>
+    <span class="n">self</span><span class="p">:</span><span class="n">setState</span><span class="p">({</span>
         <span class="n">currentTime</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="p">}</span>
+    <span class="p">})</span>
 <span class="kr">end</span>
 
 <span class="c1">-- This render function is almost completely unchanged from the first example.</span>
