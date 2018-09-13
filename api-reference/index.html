@@ -1011,7 +1011,7 @@
 <div class="codehilite"><pre><span></span>Roact.createElement(component, [props, [children]]) -&gt; RoactElement
 </pre></div>
 
-<p>Creates a new Roact element representing the given <code>component</code>.</p>
+<p>Creates a new Roact element representing the given <code>component</code>. Elements are lightweight descriptions about what a Roblox Instance should look like, like a blueprint!</p>
 <p>The <code>children</code> argument is shorthand for adding a <code>Roact.Children</code> key to <code>props</code>. It should be specified as a dictionary of names to elements.</p>
 <p><code>component</code> can be a string, a function, or a table created by <code>Component:extend</code>.</p>
 <div class="admonition caution">
@@ -1032,7 +1032,7 @@
 <div class="codehilite"><pre><span></span>Roact.reconcile(instanceHandle, element) -&gt; ComponentInstanceHandle
 </pre></div>
 
-<p>Updates an existing instance handle with a new element, returning a new handle.</p>
+<p>Updates an existing instance handle with a new element, returning a new handle. This can be used to update a UI created with <code>Roact.mount</code> by passing in a new element with new props.</p>
 <p><code>reconcile</code> can be used to change the props of a component instance created with <code>mount</code> and is useful for putting Roact content into non-Roact applications.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -1209,7 +1209,7 @@
 <span class="kr">end</span>
 </pre></div>
 
-<p><code>render</code> must be defined for all components. The default implementation of <code>render</code> throws an error; if your component does not render anything, define a render function that returns <code>nil</code> explicitly.</p>
+<p><code>render</code> must be defined for all components. The default implementation of <code>render</code> throws an error; if your component does not render anything, define a render function that returns <code>nil</code> explicitly. This helps make sure that you don't <em>forget</em> to define <code>render</code>!</p>
 <div class="codehilite"><pre><span></span><span class="kr">function</span> <span class="nc">MyComponent</span><span class="p">:</span><span class="nf">render</span><span class="p">()</span>
     <span class="kr">return</span> <span class="kc">nil</span>
 <span class="kr">end</span>
@@ -1265,7 +1265,7 @@
 </pre></div>
 
 <p><code>shouldUpdate</code> provides a way to override Roact's rerendering heuristics.</p>
-<p>Right now, components are re-rendered any time a parent component updates, or when state is updated via <code>setState</code>.</p>
+<p>By default, components are re-rendered any time a parent component updates, or when state is updated via <code>setState</code>.</p>
 <p><code>PureComponent</code> implements <code>shouldUpdate</code> to only trigger a re-render any time the props are different based on shallow equality. In a future Roact update, <em>all</em> components may implement this check by default.</p>
 <h3 id="getelementtraceback">getElementTraceback<a class="headerlink" href="#getelementtraceback" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span>getElementTraceback() -&gt; string | nil
