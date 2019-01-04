@@ -32,8 +32,10 @@ local getDefaultPropertyValue = require(script.Parent.getDefaultPropertyValue)
 local SingleEventManager = require(script.Parent.SingleEventManager)
 local Symbol = require(script.Parent.Symbol)
 local GlobalConfig = require(script.Parent.GlobalConfig)
+local Pool = require(script.Parent.Pool)
 
 local isInstanceHandle = Symbol.named("isInstanceHandle")
+local pools = {}
 
 local DEFAULT_SOURCE = "\n\t<Use Roact.setGlobalConfig with the 'elementTracing' key to enable detailed tracebacks>\n"
 
@@ -94,6 +96,37 @@ local Reconciler = {}
 
 Reconciler._singleEventManager = SingleEventManager.new()
 
+function Reconciler._pool(element, value)
+	local componentPool = pools[element.component]
+	if not componentPool then
+		componentPool = Pool.new()
+		pools[element.component] = componentPool
+	end
+	pools[element.component]:add(element.props, value)
+end
+
+function Reconciler._cached(element)
+	local componentPool = pools[element.component]
+	local rbx, oldProps
+
+	if componentPool then
+		rbx, oldProps = componentPool:nearest(element.props)
+		if rbx then
+			Reconciler._reconcilePrimitiveProps(oldProps, element, rbx)
+		end
+	end
+
+	if not rbx then
+		rbx = Instance.new(element.component)
+		-- Update Roblox properties
+		for key, value in pairs(element.props) do
+			Reconciler._setRbxProp(rbx, key, value, element)
+		end
+	end
+
+	return rbx
+end
+
 --[[
 	Destroy the given Roact instance, all of its descendants, and associated
 	Roblox instances owned by the components.
@@ -114,10 +147,12 @@ function Reconciler.unmount(instanceHandle)
 			Reconciler.unmount(child)
 		end
 
+		local rbx = instanceHandle._rbx
 		-- Necessary to make sure SingleEventManager doesn't leak references
-		Reconciler._singleEventManager:disconnectAll(instanceHandle._rbx)
+		Reconciler._singleEventManager:disconnectAll(rbx)
 
-		instanceHandle._rbx:Destroy()
+		rbx.Parent = nil
+		Reconciler._pool(element, rbx)
 	elseif elementKind == ElementKind.Functional then
 		-- Functional components can return nil
 		if instanceHandle._child then
@@ -165,7 +200,6 @@ function Reconciler._mountInternal(element, parent, key, context)
 		-- Primitive elements are backed directly by Roblox Instances.
 
 		local rbx = Instance.new(element.component)
-
 		-- Update Roblox properties
 		for key, value in pairs(element.props) do
 			Reconciler._setRbxProp(rbx, key, value, element)
