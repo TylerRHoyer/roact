@@ -1,3 +1,34 @@
+local cache = setmetatable({}, {__mode = "v"})
+local function U2(xScl, xOff, yScl, yOff)
+	local key = (("UDim2 %.6f %.6f %.6f %.6f"):format(xScl, xOff, yScl, yOff))
+	local value = cache[key]
+	if not value then
+		value = UDim2.new(xScl, xOff, yScl, yOff)
+		cache[key] = value
+	end
+	return value
+end
+
+local function C3(x, y, z)
+	local key = (("Color3 %.6f %.6f %.6f"):format(x, y, z))
+	local value = cache[key]
+	if not value then
+		value = Color3.new(x, y, z)
+		cache[key] = value
+	end
+	return value
+end
+
+local function V2(x, y)
+	local key = (("Vector2 %.6f %.6f"):format(x, y))
+	local value = cache[key]
+	if not value then
+		value = Vector2.new(x, y)
+		cache[key] = value
+	end
+	return value
+end
+
 return function()
 	local RunService = game:GetService("RunService")
 	local PlayerGui = game:GetService("Players").LocalPlayer.PlayerGui
@@ -18,9 +49,9 @@ return function()
 		local n = time + x / NODE_SIZE + y / NODE_SIZE
 
 		return Roact.createElement("Frame", {
-			Size = UDim2.new(0, NODE_SIZE, 0, NODE_SIZE),
-			Position = UDim2.new(0, NODE_SIZE * x, 0, NODE_SIZE * y),
-			BackgroundColor3 = Color3.new(0.5 + 0.5 * math.sin(n), 0.5, 0.5),
+			Size = U2(0, NODE_SIZE, 0, NODE_SIZE),
+			Position = U2(0, NODE_SIZE * x, 0, NODE_SIZE * y),
+			BackgroundColor3 = C3(0.5 + 0.5 * math.sin(n), 0.5, 0.5),
 		})
 	end
 
@@ -52,9 +83,9 @@ return function()
 		end
 
 		return Roact.createElement("Frame", {
-			Size = UDim2.new(0, GRID_SIZE * NODE_SIZE, 0, GRID_SIZE * NODE_SIZE),
-			Position = UDim2.new(0.5, 0, 0.5, 0),
-			AnchorPoint = Vector2.new(0.5, 0.5),
+			Size = U2(0, GRID_SIZE * NODE_SIZE, 0, GRID_SIZE * NODE_SIZE),
+			Position = U2(0.5, 0, 0.5, 0),
+			AnchorPoint = V2(0.5, 0.5),
 		}, nodes)
 	end
 
